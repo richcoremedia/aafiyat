@@ -1,0 +1,47 @@
+<ion-nav-bar class="bar-assertive" style="background-color: #B71C1C;" align-title="center" >
+    <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+        </button>
+    </ion-nav-buttons>
+    <ion-nav-title>
+        Products Details
+    </ion-nav-title>
+</ion-nav-bar>
+<ion-view>
+    <ion-content class="has-header" style="background: url(img/bg.jpg) center; background-size: cover;">
+        <div class="hero has-mask ">
+            <div class="content">
+                <div class="list card">
+
+                    <div class="item item-avatar">
+                        <h2>{{ product.name }}</h2>
+                        <p ng-if="user_role=='Ejen'">RM {{ product.ejen_price }}</p>
+                        <p ng-if="user_role=='Customer'">RM {{ product.customer_price }}</p>
+                    </div>
+
+                    <div class="item item-body">
+                        <img class="full-image" src="{{ product.product_cover }}">
+                        <p>
+                            <b>Product Code: {{ product.code }}</b> <br/>
+                            {{ product.descriptions }}
+                        </p>
+                        <form ng-submit="addcart(item)">
+                            <div class="row">
+                              <div class="col">
+                                  <label class="item item-input">
+                                    <input type="number" min="1" max="20" placeholder="Quantity" ng-model="item.quantity">
+                              </div>
+                              <div class="col">
+                                <button ng-disabled="!item.quantity" style="width:100%;" class="button button-positive" type="submit">
+                                  Add to Cart
+                                </button>
+                              </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

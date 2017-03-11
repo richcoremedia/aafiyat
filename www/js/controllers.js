@@ -64,7 +64,8 @@ angular.module('starter.controllers', ['ngStorage'])
         $rootScope.user_role = $localStorage.user_role;
         console.log("Username: " + $rootScope.user_name + ", Role: " + $rootScope.user_role);
 
-        $state.go('app.main');
+        // Default First Page
+        $state.go('app.products');
       }
 
 
@@ -225,6 +226,60 @@ angular.module('starter.controllers', ['ngStorage'])
 
 })
 
+.controller('ProductDetailsCtrl', function($scope, $state, $stateParams, $http, $localStorage, $ionicLoading) {
+
+  var user_token = $localStorage.user_token;
+  $ionicLoading.show();
+
+  var id = $stateParams.id;
+
+  var request_single = {
+        method: 'GET',
+        url: 'http://crmaafiyat2u.com/api/products/' + id  + '?api_token=' + user_token,
+        transformRequest: function(obj) {
+          var str = [];
+          for(var p in obj)
+          str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+          return str.join("&");
+        }
+    }
+
+    $http(request_single)
+    .success(function (data, status, headers, config) {
+        console.log(data);
+        $scope.product = data;
+        $scope.role = $localStorage.user_role;
+        $ionicLoading.hide();
+    }).error(function (data, status, headers, config) {
+        console.log(data);
+        $ionicLoading.hide();
+    });
+
+    $scope.addcart = function(item) {
+      console.log(item.quantity + " " + id);
+      
+      if (($localStorage.product_cart == null) || $localStorage.product_cart == "") {
+        var obj = [];
+      } else {
+        var obj = $localStorage.product_cart;
+      }
+
+      for (var i = 0; i<obj.length;i++) {
+        if (obj[i].product_id == id) {
+          obj.splice(i,1);
+        }
+      }
+
+      // order_details
+      var data = { product_id: id, product_quantity: item.quantity};
+      obj.push(data);
+      console.log(obj);
+      $localStorage.product_cart = obj;
+
+      $state.go('app.products');
+    };
+})
+
 .controller('UpdateProfileCtrl', function($scope, $rootScope, $stateParams, $http, $state, $localStorage) {
   $scope.updateName = function(user_name) {
     
@@ -295,6 +350,7 @@ angular.module('starter.controllers', ['ngStorage'])
     }).error(function (data, status, headers, config) {
         $scope.errorMessage = data.error.message;
     });
+
   };
 })
 
@@ -308,6 +364,10 @@ angular.module('starter.controllers', ['ngStorage'])
 })
 
 .controller('UpdateGPSCtrl', function($scope, $rootScope, $http, $state, $localStorage, $cordovaGeolocation, $ionicLoading) {
+  
+  var user_id = $localStorage.user_id;
+  var user_token = $localStorage.user_token;
+
   $scope.updateGPS = function() {
       disableMap();
       var options = {timeout: 10000, enableHighAccuracy: true};
@@ -333,18 +393,62 @@ angular.module('starter.controllers', ['ngStorage'])
           $localStorage.map_lat = position.coords.latitude;
           $localStorage.map_long = position.coords.longitude;
 
-          var marker = new google.maps.Marker({
-              map: $rootScope.map,
-              animation: google.maps.Animation.DROP,
-              position: latLng
-          });      
-         
-          var infoWindow = new google.maps.InfoWindow({
-              content: "Agent is here!"
-          });
-         
-          google.maps.event.addListener(marker, 'click', function () {
-              infoWindow.open($rootScope.map, marker);
+          // Marker for agents
+          var request_agent_loc = {
+            method: 'GET',
+            url: 'http://crmaafiyat2u.com/api/ejen/15/' + position.coords.latitude + "/" + position.coords.longitude + '?api_token=' + user_token,
+            transformRequest: function(obj) {
+              var str = [];
+              for(var p in obj)
+              str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+              return str.join("&");
+            }
+          }
+
+          $http(request_agent_loc)
+          .success(function (data, status, headers, config) {
+              console.log(data);
+
+              for(var i=0; i<data.length;i++) {
+                var loc_object = { lat: parseFloat(data[i].latitude) , lng: parseFloat(data[i].longitude) };
+
+                var image = {
+                  url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+                  // This marker is 20 pixels wide by 32 pixels high.
+                  size: new google.maps.Size(20, 32),
+                  // The origin for this image is (0, 0).
+                  origin: new google.maps.Point(0, 0),
+                  // The anchor for this image is the base of the flagpole at (0, 32).
+                  anchor: new google.maps.Point(0, 32)
+                };
+
+                var marker = new google.maps.Marker({
+                  position: loc_object,
+                  map: $rootScope.map,
+                  animation: google.maps.Animation.DROP,
+                  title: "Agent",
+                  icon: image
+                });
+
+              }
+
+              // Setup Marker          
+              var marker = new google.maps.Marker({
+                  map: $rootScope.map,
+                  animation: google.maps.Animation.DROP,
+                  position: latLng
+              });  
+             
+              var infoWindow = new google.maps.InfoWindow({
+                  content: "Agent is here!"
+              });
+             
+              google.maps.event.addListener(marker, 'click', function () {
+                  infoWindow.open($rootScope.map, marker);
+              });
+
+          }).error(function (data, status, headers, config) {
+              $scope.errorMessage = data.error.message;
           });
          
         });
@@ -364,4 +468,8 @@ angular.module('starter.controllers', ['ngStorage'])
       }
 
   };
+})
+
+.controller('CheckoutCtrl', function($scope, $rootScope, $http, $state, $localStorage, $stateParams) {
+  
 })

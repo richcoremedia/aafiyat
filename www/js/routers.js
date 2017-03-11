@@ -79,6 +79,16 @@ angular.module('starter.routes', [])
     }
   })
 
+  .state('app.productDetails', {
+    url: '/product/:id',
+    views: {
+      'main': {
+        templateUrl: 'templates/productDetails.html',
+        controller: 'ProductDetailsCtrl'
+      }
+    }
+  })
+
   .state('app.update', {
     url: '/update',
     views: {
@@ -95,6 +105,16 @@ angular.module('starter.routes', [])
       'main': {
         templateUrl: 'templates/update_gps.html',
         controller: 'UpdateGPSCtrl'
+      }
+    }
+  })
+
+  .state('app.checkout', {
+    url: '/checkout',
+    views: {
+      'main': {
+        templateUrl: 'templates/checkout.html',
+        controller: 'CheckoutCtrl'
       }
     }
   });
