@@ -1,0 +1,19 @@
+<ion-nav-bar class="bar-assertive" style="background-color: #B71C1C;" align-title="center" >
+    <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+        </button>
+    </ion-nav-buttons>
+    <ion-nav-title>
+        Update GPS
+    </ion-nav-title>
+</ion-nav-bar>
+<ion-view>
+    <ion-content class="has-header" style="background: url(img/bg.jpg) center; background-size: cover;">
+        <div class="hero has-mask ">
+            <div class="content" align="center" style="padding:20px;">
+                <div id="map" data-tap-disabled="true" style="width: 100%; min-height: 400px; height: 100%;"></div>
+                <button ng-click="updateGPS()" class="button button-full button-assertive ink">Get Current Location</button>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

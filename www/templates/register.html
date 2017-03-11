@@ -1,0 +1,39 @@
+<ion-nav-bar class="bar-assertive" style="background-color: #B71C1C;" align-title="center" >
+    <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+        </button>
+    </ion-nav-buttons>
+    <ion-nav-title>
+        Registration
+    </ion-nav-title>
+</ion-nav-bar>
+<ion-view>
+    <ion-content class="has-header" style="background: url(img/bg.jpg) center; background-size: cover;">
+        <div class="hero no-header flat">
+            <div class="content">
+                <div class="app-icon"></div>
+                <h2 class="light">Register as Customer</h2>
+                <p class="stable">Sign up now</p>
+            </div>
+        </div>
+        <form ng-submit="signin(user)" role="form" autocomplete="off">
+            <div class="list">
+                <div class="card" ng-if="errorMessage">
+                    <div class="item item-text-wrap assertive">
+                        <strong>There was an error: </strong> {{errorMessage}}
+                        <br>Please try again
+                    </div>
+                </div>
+                <label class="item item-input item-floating-label">
+                    <span class="input-label stable">Email</span>
+                    <input ng-model="user.email" type="text" placeholder="Email" class="login-pl" required>
+                </label>
+                <label class="item item-input item-floating-label">
+                    <span class="input-label stable">Password</span>
+                    <input ng-model="user.password" type="password" placeholder="Password" class="login-pl" required>
+                </label>
+            </div>
+            <button type="submit" class="button button-full button-assertive ink">Login</button>
+        </form>
+    </ion-content>
+</ion-view>

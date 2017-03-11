@@ -1,0 +1,25 @@
+<ion-nav-bar class="bar-assertive" style="background-color: #B71C1C;" align-title="center" >
+    <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+        </button>
+    </ion-nav-buttons>
+    <ion-nav-title>
+        Products &amp; Brochures
+    </ion-nav-title>
+</ion-nav-bar>
+<ion-view>
+    <ion-content class="has-header" style="background: url(img/bg.jpg) center; background-size: cover;">
+        <div class="hero has-mask ">
+            <div class="content">
+                <ul class="card list">
+                    <li ng-repeat="product in products" class="item item-thumbnail-left">
+                        <img src="{{ product.product_cover }}">
+                        <h4>{{ product.name }}</h4>
+                        <p>{{ product.descriptions }}</p>
+                        <p>RM{{ product.customer_price }}</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

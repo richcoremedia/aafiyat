@@ -1,0 +1,47 @@
+<ion-nav-bar class="bar-assertive" style="background-color: #B71C1C;" align-title="center" >
+    <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+        </button>
+    </ion-nav-buttons>
+    <ion-nav-title>
+        Update Profile
+    </ion-nav-title>
+</ion-nav-bar>
+<ion-view>
+    <ion-content class="has-header" style="background: url(img/bg.jpg) center; background-size: cover;">
+        <div class="hero has-mask ">
+            <div class="content" align="center" style="padding:20px;">
+                <form ng-submit="updateName(user_name)" role="form" autocomplete="off">
+                    <div class="list">
+                        <div class="card" ng-if="errorMessage">
+                            <div class="item item-text-wrap assertive">
+                                <strong>There was an error: </strong> {{errorMessage}}
+                                <br>Please try again
+                            </div>
+                        </div>
+                        <div class="card" ng-if="successMessage">
+                            <div class="item item-text-wrap balanced">
+                                <strong></strong> {{successMessage}}
+                            </div>
+                        </div>
+                        <label class="item item-input item-floating-label">
+                            <span class="input-label stable">Change Name</span>
+                            <input ng-model="user_name" type="text" placeholder="Name" class="login-pl" required>
+                        </label>
+                    </div>
+                    <button type="submit" class="button button-full button-assertive ink">Update Username</button>
+                </form>
+
+                <form ng-submit="updatePassword(user_password)" role="form" autocomplete="off">
+                    <div class="list">
+                        <label class="item item-input item-floating-label">
+                            <span class="input-label stable">Change Password</span>
+                            <input ng-model="user_password" type="password" class="login-pl" required>
+                        </label>
+                    </div>
+                    <button type="submit" class="button button-full button-assertive ink">Update Password</button>
+                </form>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

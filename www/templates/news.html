@@ -1,0 +1,22 @@
+<ion-nav-bar class="bar-assertive" style="background-color: #B71C1C;" align-title="center" >
+    <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+        </button>
+    </ion-nav-buttons>
+    <ion-nav-title>
+        Latest News
+    </ion-nav-title>
+</ion-nav-bar>
+<ion-view>
+    <ion-content class="has-header" style="background: url(img/bg.jpg) center; background-size: cover;">
+        <div class="hero has-mask ">
+            <div class="content">
+                <ul class="card list">
+                    <li ng-repeat="new in news" class="item item-text-wrap">
+                        {{ new.title }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

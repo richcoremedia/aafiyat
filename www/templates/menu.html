@@ -1,0 +1,140 @@
+<ion-side-menus enable-menu-with-back-views="true">
+
+    <ion-side-menu-content drag-content="enableSideMenu">
+        <ion-nav-view name="main"></ion-nav-view>
+    </ion-side-menu-content>
+
+    <!-- Pelanggan Side Menu -->
+    <ion-side-menu side="left" ng-if="user_role == 'Pelanggan'">
+        <ion-content has-header="true" class="stable-bg has-expanded-header" ng-controller="MenuCtrl">
+            <ion-list class="transparent">
+                <ion-item class="assertive" menu-close nav-clear data-target="">
+                    Hello, {{ user_name }}
+                </ion-item>
+
+                <ion-item  class="yep item-icon-left" nav-clear menu-close ui-sref="app.main">
+                    <i class="icon ion-home"></i>
+                    Home
+                </ion-item>
+
+                <!-- <ion-item class="yep item-icon-left" nav-clear menu-close ui-sref="app.login" show-if-has-any-permit="view_task, delete_task">
+                    <i class="icon ion-android-list"></i>
+                    Login
+                </ion-item> -->
+
+                <ion-item class="yep item-icon-left" nav-clear menu-close ui-sref="app.register" show-if-has-any-permit="view_task, delete_task">
+                    <i class="icon ion-person-add"></i>
+                    Register Customer
+                </ion-item>
+
+                <ion-item menu-close class="yep item-icon-left" nav-clear ui-sref="app.about">
+                    <i class="icon ion-paper-airplane"></i>
+                    About Us
+                </ion-item>
+
+                <ion-item class="assertive" menu-close nav-clear href="#" data-target="">
+                    News &amp; Promotions
+                </ion-item>
+                <ion-item class="yep item-icon-left" nav-clear menu-close ui-sref="app.news">
+                    <i class="icon ion-document-text"></i>
+                    Latest News
+                </ion-item>
+                <ion-item class="yep item-icon-left" nav-clear menu-close ui-sref="app.promotions">
+                    <i class="icon ion-thumbsup"></i>
+                    Promotions 
+                </ion-item>
+
+                <ion-item menu-close class="yep item-icon-left" nav-clear ui-sref="app.products">
+                    <i class="icon ion-pricetag"></i>
+                    Products &amp; Brochures Info
+                </ion-item>
+
+                <ion-item class="assertive" menu-close nav-clear href="#" data-target="">
+                    Settings
+                </ion-item>
+                <ion-item class="yep item-icon-left" nav-clear menu-close ui-sref="app.update">
+                    <i class="icon ion-android-settings"></i>
+                    Update Profile
+                </ion-item>
+
+                <ion-item class="yep item-icon-left" ng-click="signout()" nav-clear menu-close data-target="#" class="transparent">
+                    <i class="icon ion-android-exit"></i>
+                    Sign out
+                </ion-item>
+            </ion-list>
+        </ion-content>
+    </ion-side-menu>
+
+    <!-- Ejen Side Menu -->
+    <ion-side-menu side="left" ng-if="user_role == 'Ejen'">
+        <ion-content has-header="true" class="stable-bg has-expanded-header" ng-controller="MenuCtrl">
+            <ion-list class="transparent">
+                <ion-item class="assertive" menu-close nav-clear data-target="">
+                    Hello, Ejen {{ user_name }}
+                </ion-item>
+
+                <ion-item  class="yep item-icon-left" nav-clear menu-close ui-sref="app.main">
+                    <i class="icon ion-home"></i>
+                    Dashboard
+                </ion-item>
+
+                <!-- <ion-item class="yep item-icon-left" nav-clear menu-close ui-sref="app.login" show-if-has-any-permit="view_task, delete_task">
+                    <i class="icon ion-android-list"></i>
+                    Login
+                </ion-item> -->
+
+                <ion-item class="yep item-icon-left" nav-clear menu-close ui-sref="app.register" show-if-has-any-permit="view_task, delete_task">
+                    <i class="icon ion-person-add"></i>
+                    Register Customer
+                </ion-item>
+
+                <ion-item class="assertive" menu-close nav-clear href="#" data-target="">
+                    Agent Panel
+                </ion-item>
+                <ion-item class="yep item-icon-left" nav-clear menu-close ui-sref="app.news">
+                    <i class="icon ion-speakerphone"></i>
+                    Marketing Tools
+                </ion-item>
+                <ion-item class="yep item-icon-left" nav-clear menu-close ui-sref="app.news">
+                    <i class="icon ion-bag"></i>
+                    My Orders
+                </ion-item>
+
+                <ion-item menu-close class="yep item-icon-left" nav-clear ui-sref="app.products">
+                    <i class="icon ion-pricetag"></i>
+                    Products Info
+                </ion-item>
+
+                <ion-item class="assertive" menu-close nav-clear href="#" data-target="">
+                    News &amp; Promotions
+                </ion-item>
+                <ion-item class="yep item-icon-left" nav-clear menu-close ui-sref="app.news">
+                    <i class="icon ion-document-text"></i>
+                    Latest News
+                </ion-item>
+                <ion-item class="yep item-icon-left" nav-clear menu-close ui-sref="app.promotions">
+                    <i class="icon ion-thumbsup"></i>
+                    Promotions 
+                </ion-item>
+
+                <ion-item class="assertive" menu-close nav-clear href="#" data-target="">
+                    Settings
+                </ion-item>
+                <ion-item class="yep item-icon-left" nav-clear menu-close ui-sref="app.update">
+                    <i class="icon ion-android-settings"></i>
+                    Update Profile
+                </ion-item>
+                <ion-item class="yep item-icon-left" nav-clear menu-close ui-sref="app.update-gps">
+                    <i class="icon ion-location"></i>
+                    Update GPS
+                </ion-item>
+
+                <ion-item class="yep item-icon-left" ng-click="signout()" nav-clear menu-close data-target="#" class="transparent">
+                    <i class="icon ion-android-exit"></i>
+                    Sign out
+                </ion-item>
+            </ion-list>
+        </ion-content>
+
+    </ion-side-menu>
+</ion-side-menus>
