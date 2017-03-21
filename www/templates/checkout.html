@@ -11,17 +11,73 @@
     <ion-content class="has-header" style="background: url(img/bg.jpg) center; background-size: cover;">
         <div class="hero has-mask ">
             <div class="content">
-                <ul class="card list">
-                    <li ng-repeat="product in products" class="item item-thumbnail-left">
-                        <img src="{{ product.product_cover }}">
-                        <h4>{{ product.name }}</h4>
-                        <p>{{ product.descriptions }}</p>
-                        <p>RM{{ product.customer_price }}</p>
-                    </li>
-                </ul>
-                <div class="card">
-                    <p>Total Price: {{ product.total_price }}</p>
+                <div class="card" ng-if="successMessage">
+                    <div class="item item-text-wrap balanced">
+                        <strong></strong> {{successMessage}}
+                    </div>
                 </div>
+                
+                <div class="card list text-center">
+                    <h4 style="padding:10px;">Total Price: RM{{ totalPrice }}</h4>
+                </div>
+                <form ng-submit="place_order(order)" role="form" autocomplete="off">
+                    <div class="card list">
+                        <div class="card" ng-if="errorMessage">
+                            <div class="item item-text-wrap assertive">
+                                <strong>There was an error: </strong> {{errorMessage}}
+                                <br>Please try again
+                            </div>
+                        </div>
+                        <label class="item item-input">
+                            <input ng-model="order.name" type="text" placeholder="Name" class="login-pl" required>
+                        </label>
+                        <!-- Email Address and Password -->
+                        <label class="item item-input">
+                            <input ng-model="order.email" type="text" placeholder="Email" class="login-pl" required>
+                        </label>
+                        <label class="item item-input" ng-if="!user_name">
+                            <input ng-model="order.password" type="password" placeholder="Password" class="login-pl" required>
+                        </label>
+                        <!-- Shipping Address and Postcode -->
+                        <label class="item item-input">
+                            <textarea ng-model="order.shipping_address" type="text" rows="2" placeholder="Address" class="login-pl" required></textarea>
+                        </label>
+                        <label class="item item-input">
+                            <input ng-model="order.postcode" type="number" placeholder="Postcode" class="login-pl" required>
+                        </label>
+                        <!-- Payment -->
+                        <label class="item item-input item-select">
+                            <div class="input-label">
+                              Payment Method
+                            </div>
+                            <select ng-model="order.payment_method" required>
+                              <option value="bank_transfer" selected>Bank Transfer</option>
+                              <option value="cod">Cash on Delivery</option>
+                            </select>
+                        </label>
+                        <!-- Delivery -->
+                        <label class="item item-input item-select">
+                            <div class="input-label">
+                              Delivery Method
+                            </div>
+                            <select ng-model="order.delivery_method" required>
+                              <option value="postage" selected>Postage</option>
+                              <option value="cod">Cash on Delivery</option>
+                            </select>
+                        </label>
+                        <!-- Total Cost -->
+                        <label class="item item-input">
+                            <input ng-model="order.subtotal" value="{{ totalPrice }}" type="number" placeholder="Sub-total (RM)" class="login-pl" required disabled>
+                        </label>
+                        <label class="item item-input">
+                            <input ng-model="order.taxtotal" type="number" placeholder="Tax-total (%)" class="login-pl" required disabled>
+                        </label>
+                        <label class="item item-input">
+                            <input ng-model="order.grandtotal" type="number" placeholder="Grand-total (RM)" class="login-pl" required disabled>
+                        </label>
+                    </div>
+                    <button type="submit" class="button button-full button-assertive ink">Place Order</button>
+                </form>
             </div>
         </div>
     </ion-content>

@@ -1,0 +1,30 @@
+<ion-nav-bar class="bar-assertive" style="background-color: #B71C1C;" align-title="center" >
+    <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+        </button>
+    </ion-nav-buttons>
+    <ion-nav-title>
+        Customers Orders
+    </ion-nav-title>
+</ion-nav-bar>
+<ion-view>
+    <ion-content class="has-header" style="background: url(img/bg.jpg) center; background-size: cover;">
+        <div class="hero has-mask ">
+            <div class="content" ng-if="stat">
+                <ul class="card list">
+                    <li ng-repeat="order in orders" class="item" ui-sref="app.myorderDetails({ id: $index })">
+                        <h3>Customer ID: {{ order.customer_user_id }}</h3>
+                        <p>Date: {{ order.created_at }}</p>
+                        <p>Status: {{ order.status }}</p>
+                        <p>Grand Total: RM{{ order.grand_total }}</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="content text-center" ng-if="!stat">
+                <div class="card list">
+                    <h4 style="padding:10px;">Order is Empty</h4>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

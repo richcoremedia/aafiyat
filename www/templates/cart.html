@@ -1,0 +1,39 @@
+<ion-nav-bar class="bar-assertive" style="background-color: #B71C1C;" align-title="center" >
+    <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+        </button>
+    </ion-nav-buttons>
+    <ion-nav-title>
+        Cart
+    </ion-nav-title>
+</ion-nav-bar>
+<ion-view>
+    <ion-content class="has-header" style="background: url(img/bg.jpg) center; background-size: cover;">
+        <div class="hero has-mask ">
+            <div class="content" ng-if="stat">
+                <div class="card list text-center">
+                    <h4 style="padding:10px;">Total Price: RM{{ totalPrice }}</h4>
+                </div>
+                
+                <ul class="card list">
+                    <li ng-repeat="product in products" class="item">
+                        <h4>Product name: {{ product.product_name }}</h4>
+                        <p>Quantity: {{ product.quantity }}</p>
+                        <p>Price: RM{{ product.price }}</p>
+                        <p>Subtotal: RM{{ product.subtotal }}</p>
+                    </li>
+                </ul>
+
+                <button ui-sref="app.checkout" class="button button-assertive button-full">
+                  Continue to Checkout
+                </button>
+            </div>
+
+            <div class="content text-center" ng-if="!stat">
+                <div class="card list">
+                    <h4 style="padding:10px;">Cart is Empty</h4>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

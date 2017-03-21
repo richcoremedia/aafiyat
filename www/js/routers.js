@@ -117,6 +117,39 @@ angular.module('starter.routes', [])
         controller: 'CheckoutCtrl'
       }
     }
+  })
+
+  .state('app.cart', {
+    url: '/cart',
+    cache: false,
+    views: {
+      'main': {
+        templateUrl: 'templates/cart.html',
+        controller: 'CartCtrl'
+      }
+    }
+  })
+
+  .state('app.myorder', {
+    url: '/myorder',
+    cache: false,
+    views: {
+      'main': {
+        templateUrl: 'templates/my_orders.html',
+        controller: 'MyOrderCtrl'
+      }
+    }
+  })
+
+  .state('app.myorderDetails', {
+    url: '/myorder/:id',
+    cache: false,
+    views: {
+      'main': {
+        templateUrl: 'templates/my_ordersDetails.html',
+        controller: 'MyOrderDetailsCtrl'
+      }
+    }
   });
 
   // if none of the above states are matched, use this as the fallback

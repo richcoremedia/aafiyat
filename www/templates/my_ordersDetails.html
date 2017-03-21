@@ -1,0 +1,41 @@
+<ion-nav-bar class="bar-assertive" style="background-color: #B71C1C;" align-title="center" >
+    <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+        </button>
+    </ion-nav-buttons>
+    <ion-nav-title>
+        Order Details
+    </ion-nav-title>
+</ion-nav-bar>
+<ion-view>
+    <ion-content class="has-header" style="background: url(img/bg.jpg) center; background-size: cover;">
+        <div class="hero has-mask ">
+            <div class="content">
+                <div class="card list">
+                    <p style="padding:10px;"><b>Customer ID:</b> {{ data.customer_user_id }}</p>
+                </div>
+
+                <div class="card list" style="padding:10px;">
+                    <p><b>Status:</b> {{ data.status }}</p>
+                    <p><b>Tracking:</b> {{ data.tracking }}</p>
+                    <p><b>Date &amp; time ordered:</b> {{ data.created_at }}</p>
+                    <p><b>Postcode:</b> {{ data.postcode }}</p>
+                    <p><b>Payment Method:</b> {{ data.payment_method }}</p>
+                </div>
+
+                <ul class="card list" style="padding:10px;">
+                    <li ng-repeat="item in data.details" class="item">
+                        <h4>Product ID: {{ item.product_id }}</h4>
+                        <p>Quantity: {{ item.quantity }}</p>
+                        <p>Price: RM{{ item.price }}</p>
+                        <p>Subtotal: RM{{ item.subtotal }}</p>
+                    </li>
+                </ul>
+
+                <div class="card list text-center">
+                    <h3 style="padding:10px;">Total Price: RM{{ data.grand_total }}</h3>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

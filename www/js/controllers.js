@@ -44,6 +44,7 @@ angular.module('starter.controllers', ['ngStorage'])
 
 .controller('LoginCtrl', ['$scope', '$http', '$state', '$localStorage', '$rootScope', '$ionicLoading', function($scope, $http, $state, $localStorage, $rootScope, $ionicLoading) {
 
+  $ionicLoading.show();
   var user_token = $localStorage.user_token;
 
   var request_check_token = {
@@ -66,11 +67,14 @@ angular.module('starter.controllers', ['ngStorage'])
 
         // Default First Page
         $state.go('app.products');
+      } else {
+        $scope.errorMessage = "User is logged out";
       }
 
-
+      $ionicLoading.hide();
   }).error(function (data, status, headers, config) {
       // console.log(data);
+      $ionicLoading.hide();
   });
 
   // User click on submit login form
@@ -108,6 +112,7 @@ angular.module('starter.controllers', ['ngStorage'])
 
         $rootScope.user_name = $localStorage.user_name;
         $rootScope.user_role = $localStorage.user_role;
+        $rootScope.user_email = $localStorage.user_email;
         console.log("Username: " + $rootScope.user_name + ", Role: " + $rootScope.user_role);
 
         $ionicLoading.hide();
@@ -226,7 +231,7 @@ angular.module('starter.controllers', ['ngStorage'])
 
 })
 
-.controller('ProductDetailsCtrl', function($scope, $state, $stateParams, $http, $localStorage, $ionicLoading) {
+.controller('ProductDetailsCtrl', function($scope, $rootScope, $state, $stateParams, $http, $localStorage, $ionicLoading) {
 
   var user_token = $localStorage.user_token;
   $ionicLoading.show();
@@ -247,7 +252,7 @@ angular.module('starter.controllers', ['ngStorage'])
     $http(request_single)
     .success(function (data, status, headers, config) {
         console.log(data);
-        $scope.product = data;
+        $rootScope.product = data;
         $scope.role = $localStorage.user_role;
         $ionicLoading.hide();
     }).error(function (data, status, headers, config) {
@@ -256,7 +261,16 @@ angular.module('starter.controllers', ['ngStorage'])
     });
 
     $scope.addcart = function(item) {
-      console.log(item.quantity + " " + id);
+      var price = 0.00;
+      var name = $rootScope.product.name;
+
+      if ($localStorage.user_role == "Customer") {
+        price = $rootScope.product.customer_price;
+      } else if ($localStorage.user_role == "Ejen") {
+        price = $rootScope.product.ejen_price;
+      }
+
+      console.log(item.quantity + " " + id + " " + price + " " + price*item.quantity);
       
       if (($localStorage.product_cart == null) || $localStorage.product_cart == "") {
         var obj = [];
@@ -271,7 +285,7 @@ angular.module('starter.controllers', ['ngStorage'])
       }
 
       // order_details
-      var data = { product_id: id, product_quantity: item.quantity};
+      var data = { product_name: name, product_id: id, quantity: item.quantity, price: price, subtotal: price*item.quantity };
       obj.push(data);
       console.log(obj);
       $localStorage.product_cart = obj;
@@ -471,5 +485,160 @@ angular.module('starter.controllers', ['ngStorage'])
 })
 
 .controller('CheckoutCtrl', function($scope, $rootScope, $http, $state, $localStorage, $stateParams) {
+  $scope.products = $localStorage.product_cart; 
+  var user_token = $localStorage.user_token;
+
+  // var order_details = [];
+  // order_details.product_id = {};
+  // order_details.quantity = {};
+  // order_details.price = {};
+  // order_details.subtotal = {};
+
+  $scope.place_order = function(order) {
+    
+    // for (var i=0; i<$scope.products.length; i++) {
+    //   order_details[i].product_id = $scope.products[i].product_id;
+    //   order_details[i].quantity = $scope.products[i].quantity;
+    //   order_details[i].price = $scope.products[i].price;
+    //   order_details[i].subtotal = $scope.products[i].subtotal;
+    // }
+
+    var data = {
+      "order_details": $scope.products, // order_details
+      "delivery_method": order.delivery_method,
+      "email": order.email,
+      "name": order.name,
+      "password": order.password,
+      "postcode": order.postcode,
+      "shipping_address": order.shipping_address,
+      "payment_method": order.payment_method,
+      "delivery_method": order.delivery_method,
+      "delivery": order.delivery,
+      "grand_total": order.grand_total,
+      "tax_total": order.tax_total,
+      "sub_total": order.sub_total,
+    };
+
+    console.log(JSON.stringify(data, null, 2));
+
+    var request_add_order = {
+        method: 'POST',
+        url: 'http://crmaafiyat2u.com/api/order/add' + '?api_token=' + user_token,
+        data: data,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        transformRequest: function(obj) {
+          var str = [];
+          for(var p in obj)
+          str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+          return str.join("&");
+        }
+    }
+
+    $http(request_add_order)
+    .success(function (data, status, headers, config) {
+        console.log(data);
+
+        $scope.successMessage = "Order Submitted";
+        delete $localStorage.product_cart;
+        // $state.go('app.main');
+    }).error(function (data, status, headers, config) {
+        console.log(data);
+        // $scope.errorMessage = data.error.message;
+    });
+
+  };
+
+})
+
+.controller('CartCtrl', function($scope, $rootScope, $http, $state, $localStorage, $stateParams) {
+  $scope.products = $localStorage.product_cart; 
+  $scope.stat = $scope.products;
+
+  if (angular.isUndefined($scope.products) || $scope.products == null) {
+    $scope.stat = false;
+  } else {
+    $scope.stat = true;
+    var total = 0;
+
+    for (var i = 0; i < $localStorage.product_cart.length; i++) {
+      total += $localStorage.product_cart[i].subtotal;
+    }
+
+    $rootScope.totalPrice = total;
+  }
+
+})
+
+.controller('MyOrderCtrl', function($scope, $rootScope, $http, $state, $localStorage, $ionicLoading) {
+  var user_role = $localStorage.user_role;
+  var user_id = $localStorage.user_id;
+  var user_token = $localStorage.user_token;
   
+  if (user_role == "Ejen") {
+    $ionicLoading.show();
+
+    var request_get_order = {
+        method: 'GET',
+        url: 'http://crmaafiyat2u.com/api/order/' + user_id + '/ejen' + '?api_token=' + user_token,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        transformRequest: function(obj) {
+          var str = [];
+          for(var p in obj)
+          str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+          return str.join("&");
+        }
+    }
+
+  } else if(user_role == "Pelanggan") {
+    var request_get_order = {
+        method: 'GET',
+        url: 'http://crmaafiyat2u.com/api/order/' + user_id + '/customer' + '?api_token=' + user_token,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        transformRequest: function(obj) {
+          var str = [];
+          for(var p in obj)
+          str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+          return str.join("&");
+        }
+    }
+  }
+
+  $http(request_get_order)
+  .success(function (data, status, headers, config) {
+      console.log(data);
+
+      if(data.length > 0){   
+          $scope.stat = true;
+      }else{
+         $scope.stat = false;
+      }
+      
+      $scope.orders = data;
+      $localStorage.orders_data = data;
+
+      $ionicLoading.hide();
+
+      // $scope.successMessage = data;
+      // $state.go('app.main');
+  }).error(function (data, status, headers, config) {
+      console.log(data);
+      $scope.stat = false;
+      $ionicLoading.hide();
+      // $scope.errorMessage = data.error.message;
+  });
+
+})
+
+.controller('MyOrderDetailsCtrl', function($scope, $rootScope, $http, $state, $stateParams, $localStorage, $ionicLoading) {
+  var id = $stateParams.id;
+
+  $scope.data = $localStorage.orders_data[id];
+  console.log($scope.data);
+
 })
