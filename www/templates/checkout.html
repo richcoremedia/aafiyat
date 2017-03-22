@@ -12,7 +12,7 @@
         <div class="hero has-mask ">
             <div class="content">
                 <div class="card" ng-if="successMessage">
-                    <div class="item item-text-wrap balanced">
+                    <div class="item item-text-wrap balanced text-center">
                         <strong></strong> {{successMessage}}
                     </div>
                 </div>
@@ -45,6 +45,10 @@
                         <label class="item item-input">
                             <input ng-model="order.postcode" type="number" placeholder="Postcode" class="login-pl" required>
                         </label>
+                        <!-- IC Number -->
+                        <label class="item item-input">
+                            <input ng-model="order.icnum" type="number" placeholder="IC Number" class="login-pl" required>
+                        </label>
                         <!-- Payment -->
                         <label class="item item-input item-select">
                             <div class="input-label">
@@ -66,7 +70,7 @@
                             </select>
                         </label>
                         <!-- Total Cost -->
-                        <label class="item item-input">
+                        <!-- <label class="item item-input">
                             <input ng-model="order.subtotal" value="{{ totalPrice }}" type="number" placeholder="Sub-total (RM)" class="login-pl" required disabled>
                         </label>
                         <label class="item item-input">
@@ -74,7 +78,7 @@
                         </label>
                         <label class="item item-input">
                             <input ng-model="order.grandtotal" type="number" placeholder="Grand-total (RM)" class="login-pl" required disabled>
-                        </label>
+                        </label> -->
                     </div>
                     <button type="submit" class="button button-full button-assertive ink">Place Order</button>
                 </form>

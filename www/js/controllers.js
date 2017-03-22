@@ -264,12 +264,13 @@ angular.module('starter.controllers', ['ngStorage'])
       var price = 0.00;
       var name = $rootScope.product.name;
 
-      if ($localStorage.user_role == "Customer") {
+      if ($localStorage.user_role == "Pelanggan") {
         price = $rootScope.product.customer_price;
       } else if ($localStorage.user_role == "Ejen") {
         price = $rootScope.product.ejen_price;
       }
 
+      console.log($localStorage.user_role + " " + $rootScope.product.customer_price + " " + $rootScope.product.ejen_price);
       console.log(item.quantity + " " + id + " " + price + " " + price*item.quantity);
       
       if (($localStorage.product_cart == null) || $localStorage.product_cart == "") {
@@ -504,7 +505,7 @@ angular.module('starter.controllers', ['ngStorage'])
     // }
 
     var data = {
-      "order_details": $scope.products, // order_details
+      "order_details": encodeURIComponent(JSON.stringify($scope.products)), // order_details
       "delivery_method": order.delivery_method,
       "email": order.email,
       "name": order.name,
@@ -513,10 +514,15 @@ angular.module('starter.controllers', ['ngStorage'])
       "shipping_address": order.shipping_address,
       "payment_method": order.payment_method,
       "delivery_method": order.delivery_method,
-      "delivery": order.delivery,
-      "grand_total": order.grand_total,
-      "tax_total": order.tax_total,
-      "sub_total": order.sub_total,
+      // "delivery": "",
+      "grand_total": $rootScope.totalPrice,
+      "tax_total": 0.00,
+      "sub_total": $rootScope.totalPrice,
+      "icnum": order.icnum,
+      // "delivery": order.delivery,
+      // "grand_total": order.grand_total,
+      // "tax_total": order.tax_total,
+      // "sub_total": order.sub_total,
     };
 
     console.log(JSON.stringify(data, null, 2));
@@ -535,6 +541,8 @@ angular.module('starter.controllers', ['ngStorage'])
           return str.join("&");
         }
     }
+
+    console.log(request_add_order);
 
     $http(request_add_order)
     .success(function (data, status, headers, config) {

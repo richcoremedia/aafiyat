@@ -8,7 +8,10 @@
     <ion-side-menu side="left" ng-if="user_role == 'Pelanggan'">
         <ion-content has-header="true" class="stable-bg has-expanded-header" ng-controller="MenuCtrl">
             <ion-list class="transparent">
-                <ion-item class="assertive" menu-close nav-clear data-target="">
+                <ion-item style="min-height: 120px; background-color: #413C35 ;" menu-close nav-clear data-target="">
+                    <img style="padding-left:40px;" src="img/logo.png">
+                </ion-item>
+                <ion-item style="color: #898681;" menu-close nav-clear data-target="">
                     Hello, {{ user_name }}
                 </ion-item>
 
@@ -37,7 +40,7 @@
                     My Orders
                 </ion-item>
 
-                <ion-item class="assertive" menu-close nav-clear href="#" data-target="">
+                <ion-item style="color: #898681;" menu-close nav-clear href="#" data-target="">
                     News &amp; Promotions
                 </ion-item>
                 <ion-item class="yep item-icon-left" nav-clear menu-close ui-sref="app.news">
@@ -54,7 +57,7 @@
                     Products &amp; Brochures Info
                 </ion-item>
 
-                <ion-item class="assertive" menu-close nav-clear href="#" data-target="">
+                <ion-item style="color: #898681;" menu-close nav-clear href="#" data-target="">
                     Settings
                 </ion-item>
                 <ion-item class="yep item-icon-left" nav-clear menu-close ui-sref="app.update">
@@ -68,13 +71,16 @@
                 </ion-item>
             </ion-list>
         </ion-content>
-    </ion-side-menu>
+    </ion-side-menu>  <!-- End Pelanggan Side Menu -->
 
     <!-- Ejen Side Menu -->
     <ion-side-menu side="left" ng-if="user_role == 'Ejen'">
         <ion-content has-header="true" class="stable-bg has-expanded-header" ng-controller="MenuCtrl">
             <ion-list class="transparent">
-                <ion-item class="assertive" menu-close nav-clear data-target="">
+                <ion-item style="min-height: 120px; background-color: #413C35 ;" menu-close nav-clear data-target="">
+                    <img style="padding-left:40px;" src="img/logo.png">
+                </ion-item>
+                <ion-item style="color: #898681;" menu-close nav-clear data-target="">
                     Hello, Ejen {{ user_name }}
                 </ion-item>
 
@@ -98,7 +104,7 @@
                     Register Customer
                 </ion-item>
 
-                <ion-item class="assertive" menu-close nav-clear href="#" data-target="">
+                <ion-item style="color: #898681;" menu-close nav-clear href="#" data-target="">
                     Agent Panel
                 </ion-item>
                 <ion-item class="yep item-icon-left" nav-clear menu-close ui-sref="app.news">
@@ -115,7 +121,7 @@
                     Products Info
                 </ion-item>
 
-                <ion-item class="assertive" menu-close nav-clear href="#" data-target="">
+                <ion-item style="color: #898681;" menu-close nav-clear href="#" data-target="">
                     News &amp; Promotions
                 </ion-item>
                 <ion-item class="yep item-icon-left" nav-clear menu-close ui-sref="app.news">
@@ -127,7 +133,7 @@
                     Promotions 
                 </ion-item>
 
-                <ion-item class="assertive" menu-close nav-clear href="#" data-target="">
+                <ion-item style="color: #898681;" menu-close nav-clear href="#" data-target="">
                     Settings
                 </ion-item>
                 <ion-item class="yep item-icon-left" nav-clear menu-close ui-sref="app.update">
@@ -144,7 +150,50 @@
                     Sign out
                 </ion-item>
             </ion-list>
-        </ion-content>
-
+        </ion-content> <!-- End Ejen Side Menu -->
     </ion-side-menu>
+
+    <!-- Guest Side Menu -->
+    <ion-side-menu side="left" ng-if="(user_role != 'Pelanggan') && (user_role != 'Ejen')">
+        <ion-content has-header="true" class="stable-bg has-expanded-header" ng-controller="MenuCtrl">
+            <ion-list class="transparent">
+                <ion-item class="assertive" menu-close nav-clear data-target="">
+                    Hello, Guest
+                </ion-item>
+
+                <ion-item  class="yep item-icon-left" nav-clear menu-close ui-sref="app.main">
+                    <i class="icon ion-home"></i>
+                    Home
+                </ion-item>
+
+                <ion-item menu-close class="yep item-icon-left" nav-clear ui-sref="app.about">
+                    <i class="icon ion-paper-airplane"></i>
+                    About Us
+                </ion-item>
+
+                <ion-item  class="yep item-icon-left" nav-clear menu-close ui-sref="app.cart">
+                    <i class="icon ion-android-cart"></i>
+                    Cart
+                </ion-item>
+
+                <ion-item class="assertive" menu-close nav-clear href="#" data-target="">
+                    News &amp; Promotions
+                </ion-item>
+                <ion-item class="yep item-icon-left" nav-clear menu-close ui-sref="app.news">
+                    <i class="icon ion-document-text"></i>
+                    Latest News
+                </ion-item>
+                <ion-item class="yep item-icon-left" nav-clear menu-close ui-sref="app.promotions">
+                    <i class="icon ion-thumbsup"></i>
+                    Promotions 
+                </ion-item>
+
+                <ion-item menu-close class="yep item-icon-left" nav-clear ui-sref="app.products">
+                    <i class="icon ion-pricetag"></i>
+                    Products &amp; Brochures Info
+                </ion-item>
+            </ion-list>
+        </ion-content>
+    </ion-side-menu> <!-- End Pelanggan Side Menu -->
+
 </ion-side-menus>
